@@ -1,12 +1,38 @@
-# React + Vite
+# AbliHUB 🧠🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**AbliHUB** is an AI-powered project-based learning platform that helps learners choose a skill, generate a personalized roadmap, build mini-projects, and get instant feedback — all in one place.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎯 **SkillCard**: Choose a skill like Web Dev, Data Science, ML, etc.
+- 🗺️ **AI Roadmap Generator**: Generates a step-by-step roadmap based on your selected skill and current level.
+- 🛠️ **Mini Project Creator**: Creates mini-projects based on your roadmap progress.
+- 🤖 **AI Feedback System**: Upload your code/project and get instant feedback.
+- 📊 **Progress Dashboard**: Visual dashboard to track learning and project completion.
 
-## Expanding the ESLint configuration
+## 📸 Preview
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+> (Add screenshots/gifs here when your app has UI)
+
+## 🧰 Tech Stack
+
+- ⚛️ React + Vite
+- 🧠 OpenAI API (for project/roadmap/feedback generation)
+- 🔐 Firebase or Auth.js (for auth) *(planned)*
+- 🗂️ MongoDB or Supabase (for backend data) *(planned)*
+- 🎨 Tailwind CSS (for UI design)
+
+## 📦 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/ablihub.git
+
+# Go into the project directory
+cd ablihub
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev```
