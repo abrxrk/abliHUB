@@ -12,8 +12,6 @@
 
 ## 📸 Preview
 
-## 📸 UI Preview
-
 > 🚧 This is the Week 1 UI prototype. Backend and AI features coming soon!
 > ![AbliHUB Dashboard Prototype](UI_Prototype.png)
 
