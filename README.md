@@ -12,19 +12,22 @@
 
 ## 📸 Preview
 
-> (Add screenshots/gifs here when your app has UI)
+## 📸 UI Preview
+
+> 🚧 This is the Week 1 UI prototype. Backend and AI features coming soon!
+> ![AbliHUB Dashboard Prototype](UI_Prototype.png)
 
 ## 🧰 Tech Stack
 
 - ⚛️ React + Vite
 - 🧠 OpenAI API (for project/roadmap/feedback generation)
-- 🔐 Firebase or Auth.js (for auth) *(planned)*
-- 🗂️ MongoDB or Supabase (for backend data) *(planned)*
+- 🔐 Firebase or Auth.js (for auth) _(planned)_
+- 🗂️ MongoDB or Supabase (for backend data) _(planned)_
 - 🎨 Tailwind CSS (for UI design)
 
 ## 📦 Installation
 
-```bash
+````bash
 # Clone the repository
 git clone https://github.com/yourusername/ablihub.git
 
@@ -36,3 +39,4 @@ npm install
 
 # Start the development server
 npm run dev```
+````
