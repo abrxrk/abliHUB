@@ -13,13 +13,13 @@ const SkillCard = ({ skillName = "Python", progress = 0, onViewCourse }) => {
         transform transition-all duration-300 ease-in-out
         ${isHovered ? 'scale-105 shadow-3xl' : ''}
         hover:border-gray-600 cursor-pointer
-        min-h-[300px] w-full max-w-sm
+        min-h-[300px] w-full max-w-sm mx-auto
       `}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Progress Ring - Top Right */}
-      <div className="absolute top-4 right-4 w-16 h-16">
+      {/* Progress Ring - Top Right with responsive sizing */}
+      <div className="absolute top-4 right-4 w-14 h-14 sm:w-16 sm:h-16">
         <CircularProgressbar
           value={progress}
           text={`${progress}%`}
@@ -29,17 +29,18 @@ const SkillCard = ({ skillName = "Python", progress = 0, onViewCourse }) => {
               height: '100%',
             },
             path: {
-              stroke: '#10B981', // Emerald green
+              stroke: '#10B981',
               strokeWidth: 8,
               transition: 'stroke-dashoffset 0.5s ease 0s',
             },
             trail: {
-              stroke: '#374151', // Gray
+              stroke: '#374151',
               strokeWidth: 8,
             },
+            // Adjusted text size for better fit on small screens
             text: {
               fill: '#10B981',
-              fontSize: '24px',
+              fontSize: '22px', // Slightly smaller to fit in the smaller ring
               fontWeight: 'bold',
             },
           }}
@@ -48,9 +49,9 @@ const SkillCard = ({ skillName = "Python", progress = 0, onViewCourse }) => {
 
       {/* Card Content */}
       <div className="flex flex-col h-full justify-between">
-        {/* Skill Name */}
+        {/* Skill Name with responsive font size */}
         <div className="mt-8">
-          <h2 className="text-3xl font-bold text-white mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             {skillName}
           </h2>
           <p className="text-gray-400 text-sm">
@@ -63,7 +64,7 @@ const SkillCard = ({ skillName = "Python", progress = 0, onViewCourse }) => {
           <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full opacity-20 blur-lg"></div>
         </div>
 
-        {/* Action Button */}
+        {/* Action Button - No changes needed, already flexible */}
         <button
           onClick={onViewCourse}
           className={`
