@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SkillCard from '../components/SkillCard';
 
 const Dashboard = () => {
-  const [userSkill, setUserSkill] = useState({
-    name: "Python",
-    progress: 65
-  });
+  const userSkill = [
+  {
+    id: 1,
+    name: 'Python',
+    progress: 65,
+    description: 'AI-Generated Learning Path'
+  },
+  {
+    id: 2,
+    name: 'React.js',
+    progress: 40,
+    description: 'Build modern user interfaces'
+  },
+  {
+    id: 3,
+    name: 'Data Structures',
+    progress: 80,
+    description: 'Core computer science concepts'
+  }
+];
+
 
   const handleViewCourse = () => {
     console.log(`Viewing course for ${userSkill.name}`);
@@ -29,14 +46,17 @@ const Dashboard = () => {
           </p>
         </div>
 
-        {/* Skills Grid with responsive gaps */}
+        {/* Skills Grid with responsive gaps-using map function over here  */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          <SkillCard
-            skillName={userSkill.name}
-            progress={userSkill.progress}
-            onViewCourse={handleViewCourse}
-          />
-          
+          {userSkill.map((skill) => (
+            <SkillCard
+            key={skill.id} // React needs a unique key for list items
+            skillName={skill.name}
+            progress={skill.progress}
+            description={skill.description} // Pass the new description prop
+            onViewCourse={() => handleViewCourse(skill.name)}
+            />
+          ))}
           {/* Placeholder for future skills - no changes needed here, it adapts with the grid */}
           <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 shadow-2xl border border-gray-700 border-dashed min-h-[300px] w-full max-w-sm flex items-center justify-center opacity-50 mx-auto">
             <div className="text-center">

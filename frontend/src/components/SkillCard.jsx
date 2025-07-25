@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const SkillCard = ({ skillName = "Python", progress = 0, onViewCourse }) => {
+const SkillCard = ({ skillName = "Skill", progress = 0, description= "No description available", onViewCourse }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -55,7 +55,7 @@ const SkillCard = ({ skillName = "Python", progress = 0, onViewCourse }) => {
             {skillName}
           </h2>
           <p className="text-gray-400 text-sm">
-            AI-Generated Learning Path
+            {description}
           </p>
         </div>
 
