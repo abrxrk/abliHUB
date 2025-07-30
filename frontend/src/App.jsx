@@ -22,22 +22,22 @@ const AnimatedRoutes = () => {
     setIsTransitioning(true);
     const timer = setTimeout(() => {
       setIsTransitioning(false);
-    }, 150);
+    }, 100); // Reduced transition time
 
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
   return (
     <div
-      className={`transition-opacity duration-300 ${
-        isTransitioning ? "opacity-0" : "opacity-100"
+      className={`transition-all duration-200 ease-out min-h-screen ${
+        isTransitioning ? "opacity-90" : "opacity-100"
       }`}
     >
       <Routes location={location}>
         <Route
           path="/"
           element={
-            <RouteTransition>
+            <RouteTransition delay={50}>
               <LandingPage />
             </RouteTransition>
           }
@@ -45,7 +45,7 @@ const AnimatedRoutes = () => {
         <Route
           path="/login"
           element={
-            <RouteTransition delay={150}>
+            <RouteTransition delay={50}>
               <Login />
             </RouteTransition>
           }
@@ -53,7 +53,7 @@ const AnimatedRoutes = () => {
         <Route
           path="/signup"
           element={
-            <RouteTransition delay={150}>
+            <RouteTransition delay={50}>
               <Signup />
             </RouteTransition>
           }
@@ -61,7 +61,7 @@ const AnimatedRoutes = () => {
         <Route
           path="/dashboard"
           element={
-            <RouteTransition delay={200}>
+            <RouteTransition delay={50}>
               <Dashboard />
             </RouteTransition>
           }
@@ -73,23 +73,35 @@ const AnimatedRoutes = () => {
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
-    // Simulate initial app loading
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // Show loading for 2 seconds
+    // Only show loading screen on very first visit
+    const hasVisited = sessionStorage.getItem("hasVisited");
 
-    return () => clearTimeout(timer);
+    if (!hasVisited) {
+      // First time visit - show loading screen
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+        setHasLoaded(true);
+        sessionStorage.setItem("hasVisited", "true");
+      }, 1500); // Reduced to 1.5 seconds
+
+      return () => clearTimeout(timer);
+    } else {
+      // Subsequent visits - no loading screen
+      setIsLoading(false);
+      setHasLoaded(true);
+    }
   }, []);
 
   return (
     <Router>
-      <div>
+      <div className="min-h-screen bg-gray-900">
         <LoadingSpinner isLoading={isLoading} />
 
         {!isLoading && (
-          <div className="animate-fadeInUp">
+          <div className={`${hasLoaded ? "animate-fadeInUp" : ""}`}>
             <AnimatedRoutes />
           </div>
         )}

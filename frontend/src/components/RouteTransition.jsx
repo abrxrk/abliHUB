@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const RouteTransition = ({ children, delay = 100 }) => {
+const RouteTransition = ({ children, delay = 50 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -13,8 +13,8 @@ const RouteTransition = ({ children, delay = 100 }) => {
 
   return (
     <div
-      className={`transition-all duration-500 ease-out ${
-        isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
+      className={`transition-all duration-300 ease-out ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       }`}
     >
       {children}
