@@ -88,9 +88,9 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
       />
 
       {/* Modal Content */}
-      <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] border border-gray-700 w-full max-w-4xl max-h-[90vh] overflow-hidden transform transition-all duration-300 scale-100">
+      <div className="relative bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] border border-slate-800 w-full max-w-4xl max-h-[90vh] overflow-hidden transform transition-all duration-300 scale-100">
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-gray-800 to-gray-900 border-b border-gray-700 p-6 z-10">
+        <div className="sticky top-0 bg-gradient-to-r from-slate-900 to-slate-950 border-b border-slate-800 p-6 z-10">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-3xl font-bold text-white mb-2">
@@ -98,21 +98,21 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
                   ? `${roadmapData.title} Roadmap`
                   : `${skillName} Roadmap`}
               </h2>
-              <p className="text-gray-400">
+              <p className="text-slate-400">
                 {roadmapData ? roadmapData.description : "Coming soon..."}
               </p>
               {roadmapData && (
                 <div className="mt-3">
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
-                      <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-                      <span className="text-sm text-gray-300">
+                      <div className="w-4 h-4 bg-emerald-500 rounded-full"></div>
+                      <span className="text-sm text-slate-300">
                         Overall Progress: {getOverallProgress()}%
                       </span>
                     </div>
-                    <div className="w-32 bg-gray-700 rounded-full h-2">
+                    <div className="w-32 bg-slate-800 rounded-full h-2">
                       <div
-                        className="bg-gradient-to-r from-green-400 to-green-600 h-2 rounded-full transition-all duration-500"
+                        className="bg-gradient-to-r from-emerald-500 to-emerald-600 h-2 rounded-full transition-all duration-500"
                         style={{ width: `${getOverallProgress()}%` }}
                       ></div>
                     </div>
@@ -124,7 +124,7 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-700 rounded-lg"
+              className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-800 rounded-lg"
             >
               <svg
                 className="w-6 h-6"
@@ -154,23 +154,23 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
                 return (
                   <div
                     key={level.id}
-                    className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl border border-gray-600 overflow-hidden transition-all duration-300 hover:border-gray-500"
+                    className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700 overflow-hidden transition-all duration-300 hover:border-slate-600"
                   >
                     {/* Level Header */}
                     <button
                       onClick={() => toggleLevel(level.id)}
-                      className="w-full p-6 text-left hover:bg-gray-700 transition-colors duration-200"
+                      className="w-full p-6 text-left hover:bg-slate-800 transition-colors duration-200"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
-                          <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full text-white font-bold">
+                          <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-slate-600 to-slate-700 rounded-full text-white font-bold">
                             {levelIndex + 1}
                           </div>
                           <div>
                             <h3 className="text-xl font-semibold text-white">
                               {level.title}
                             </h3>
-                            <p className="text-sm text-gray-400 mt-1">
+                            <p className="text-sm text-slate-400 mt-1">
                               {
                                 level.steps.filter((step) => step.completed)
                                   .length
@@ -190,7 +190,7 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
                               <path
                                 d="m18,2.0845 a 15.9155,15.9155 0 0,1 0,31.831 a 15.9155,15.9155 0 0,1 0,-31.831"
                                 fill="none"
-                                stroke="#374151"
+                                stroke="#475569"
                                 strokeWidth="3"
                               />
                               <path
@@ -202,7 +202,7 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
                               />
                             </svg>
                             <div className="absolute inset-0 flex items-center justify-center">
-                              <span className="text-xs font-bold text-green-400">
+                              <span className="text-xs font-bold text-emerald-400">
                                 {levelProgress}%
                               </span>
                             </div>
@@ -210,7 +210,7 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
 
                           {/* Expand Icon */}
                           <svg
-                            className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
+                            className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${
                               isExpanded ? "rotate-180" : ""
                             }`}
                             fill="none"
@@ -246,16 +246,16 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
                               }
                               className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 cursor-pointer ${
                                 step.completed
-                                  ? "bg-green-900 bg-opacity-30 border border-green-700 hover:bg-green-900 hover:bg-opacity-40"
-                                  : "bg-gray-800 border border-gray-600 hover:border-gray-500 hover:bg-gray-700"
+                                  ? "bg-emerald-900 bg-opacity-20 border border-emerald-700 hover:bg-emerald-900 hover:bg-opacity-30"
+                                  : "bg-slate-800 border border-slate-700 hover:border-slate-600 hover:bg-slate-700"
                               }`}
                             >
                               {/* Checkbox */}
                               <div
                                 className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-200 ${
                                   step.completed
-                                    ? "bg-green-500 border-green-500 scale-110"
-                                    : "border-gray-500 hover:border-gray-400 hover:scale-105"
+                                    ? "bg-emerald-500 border-emerald-500 scale-110"
+                                    : "border-slate-500 hover:border-slate-400 hover:scale-105"
                                 }`}
                               >
                                 {step.completed && (
@@ -280,14 +280,14 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
                                 <p
                                   className={`font-medium transition-colors ${
                                     step.completed
-                                      ? "text-green-300"
+                                      ? "text-emerald-300"
                                       : "text-white"
                                   }`}
                                 >
                                   {step.title}
                                 </p>
                                 {step.title.includes("Mini-Project") && (
-                                  <span className="inline-block mt-1 px-2 py-1 text-xs bg-blue-600 text-blue-100 rounded-full">
+                                  <span className="inline-block mt-1 px-2 py-1 text-xs bg-slate-600 text-slate-100 rounded-full">
                                     Project
                                   </span>
                                 )}
@@ -296,7 +296,7 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
                               {/* Status Icon */}
                               {step.completed && (
                                 <div className="flex-shrink-0">
-                                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                                 </div>
                               )}
                             </div>
@@ -311,7 +311,7 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
           ) : (
             // Coming Soon Content
             <div className="flex flex-col items-center justify-center py-16 px-8 text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mb-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-slate-600 to-slate-700 rounded-full flex items-center justify-center mb-6">
                 <svg
                   className="w-10 h-10 text-white"
                   fill="none"
@@ -331,29 +331,29 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
                 {skillName} Roadmap Coming Soon! 🚀
               </h3>
 
-              <p className="text-gray-400 text-lg mb-6 max-w-md">
+              <p className="text-slate-400 text-lg mb-6 max-w-md">
                 We're currently working on creating an amazing learning path for{" "}
                 {skillName}. This roadmap is in progress and will be available
                 soon.
               </p>
 
-              <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl p-6 border border-gray-600 max-w-sm">
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700 max-w-sm">
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm text-gray-300">In Development</span>
+                  <div className="w-3 h-3 bg-slate-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-slate-300">In Development</span>
                 </div>
 
-                <p className="text-sm text-gray-400 mb-4">
+                <p className="text-sm text-slate-400 mb-4">
                   Our AI-powered system is generating personalized learning
                   steps, mini-projects, and skill assessments for this course.
                 </p>
 
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-slate-500">
                   Expected: Coming Soon ⏰
                 </div>
               </div>
 
-              <p className="text-sm text-gray-500 mt-8">
+              <p className="text-sm text-slate-500 mt-8">
                 Meanwhile, check out our React.js roadmap to see what's coming
                 for {skillName}!
               </p>
@@ -362,16 +362,16 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 bg-gradient-to-r from-gray-800 to-gray-900 border-t border-gray-700 p-6">
+        <div className="sticky bottom-0 bg-gradient-to-r from-slate-900 to-slate-950 border-t border-slate-800 p-6">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-400">
+            <div className="text-sm text-slate-400">
               {roadmapData
                 ? "Keep going! You're making great progress 🚀"
                 : `${skillName} roadmap will be available soon!`}
             </div>
             <button
               onClick={onClose}
-              className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105"
+              className="px-6 py-2 bg-gradient-to-r from-slate-700 to-slate-800 text-white font-semibold rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all duration-200 transform hover:scale-105 border border-slate-600"
             >
               {roadmapData ? "Continue Learning" : "Got It"}
             </button>
