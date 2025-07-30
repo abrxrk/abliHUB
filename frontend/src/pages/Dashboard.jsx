@@ -131,25 +131,6 @@ const Dashboard = () => {
             </div>
           </div>
         </section>
-
-        {/* Bottom Section with animation */}
-        <div
-          className="mt-12 md:mt-16 p-6 bg-gray-800 rounded-xl border border-gray-700 opacity-0 translate-y-6 animate-fadeInUp shadow-xl hover:shadow-2xl transition-shadow duration-300"
-          style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}
-        >
-          <h3 className="text-xl font-semibold mb-4">
-            Don't See Your Courses?
-          </h3>
-          <p className="text-gray-400 mb-4">
-            Try refreshing the database. If you are still facing issues?{" "}
-            <span className="text-blue-400 cursor-pointer hover:underline">
-              Contact us
-            </span>
-          </p>
-          <button className="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">
-            Refresh Database
-          </button>
-        </div>
       </div>
 
       {/* Roadmap Modal - Rendered as Portal at document.body level */}

@@ -33,6 +33,42 @@
   }
 }
 
+/* Loading Bar Animation */
+@keyframes loading-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Page Transition Animations */
+@keyframes pageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pageSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
 .animate-fadeInUp {
   animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -43,6 +79,18 @@
 
 .animate-gentleFloat {
   animation: gentleFloat 3s ease-in-out infinite;
+}
+
+.animate-loading-bar {
+  animation: loading-bar 2s ease-in-out infinite;
+}
+
+.animate-pageSlideIn {
+  animation: pageSlideIn 0.5s ease-out;
+}
+
+.animate-pageSlideOut {
+  animation: pageSlideOut 0.3s ease-in;
 }
 
 /* Enhanced shadow utilities */

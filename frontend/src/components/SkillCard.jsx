@@ -73,7 +73,7 @@ const SkillCard = ({
           onClick={onViewCourse}
           className={`
             w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-slate-700 text-white font-semibold rounded-lg
-            transition-all duration-300 ease-in-out
+            transition-all duration-300 ease-in-out cursor-pointer
             ${
               isHovered
                 ? "from-blue-700 to-slate-800 shadow-lg shadow-blue-500/25"
