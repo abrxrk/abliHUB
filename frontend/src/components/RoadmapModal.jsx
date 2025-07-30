@@ -80,7 +80,7 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black bg-opacity-70 backdrop-blur-sm transition-opacity duration-300"
@@ -371,7 +371,7 @@ const RoadmapModal = ({ isOpen, onClose, skillName }) => {
             </div>
             <button
               onClick={onClose}
-              className="px-6 py-2 bg-gradient-to-r from-slate-700 to-slate-800 text-white font-semibold rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all duration-200 transform hover:scale-105 border border-slate-600"
+              className="px-6 py-2 bg-gradient-to-r from-blue-600 to-slate-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-slate-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25"
             >
               {roadmapData ? "Continue Learning" : "Got It"}
             </button>

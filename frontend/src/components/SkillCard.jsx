@@ -35,7 +35,7 @@ const SkillCard = ({
               height: "100%",
             },
             path: {
-              stroke: "#10B981",
+              stroke: "#F8FAFC", // Light white (slate-50)
               strokeWidth: 8,
               transition: "stroke-dashoffset 0.5s ease 0s",
             },
@@ -45,7 +45,7 @@ const SkillCard = ({
             },
             // Adjusted text size for better fit on small screens
             text: {
-              fill: "#10B981",
+              fill: "#F8FAFC", // Light white (slate-50)
               fontSize: "22px", // Slightly smaller to fit in the smaller ring
               fontWeight: "bold",
             },
@@ -65,17 +65,22 @@ const SkillCard = ({
 
         {/* Decorative Elements */}
         <div className="flex-1 flex items-center justify-center my-6">
-          <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full opacity-20 blur-lg"></div>
+          <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-slate-700 rounded-full opacity-20 blur-lg"></div>
         </div>
 
-        {/* Action Button - No changes needed, already flexible */}
+        {/* Action Button */}
         <button
           onClick={onViewCourse}
           className={`
-            w-full py-3 px-6 bg-white text-gray-900 font-semibold rounded-lg
-            transition-all duration-200 ease-in-out
-            ${isHovered ? "bg-gray-100 shadow-lg" : "bg-white"}
-            hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50
+            w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-slate-700 text-white font-semibold rounded-lg
+            transition-all duration-300 ease-in-out
+            ${
+              isHovered
+                ? "from-blue-700 to-slate-800 shadow-lg shadow-blue-500/25"
+                : ""
+            }
+            hover:from-blue-700 hover:to-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50
+            transform hover:scale-105
           `}
         >
           View Course
