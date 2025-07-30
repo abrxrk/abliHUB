@@ -152,7 +152,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Roadmap Modal */}
+      {/* Roadmap Modal - Rendered as Portal at document.body level */}
       <RoadmapModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
