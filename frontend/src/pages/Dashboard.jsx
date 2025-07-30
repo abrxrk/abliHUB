@@ -1,78 +1,113 @@
-import React from 'react';
-import SkillCard from '../components/SkillCard';
+import React, { useState } from "react";
+import SkillCard from "../components/SkillCard";
+import RoadmapModal from "../components/RoadmapModal";
 
 const Dashboard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSkill, setSelectedSkill] = useState(null);
+
   const userSkill = [
-  {
-    id: 1,
-    name: 'Python',
-    progress: 65,
-    description: 'AI-Generated Learning Path'
-  },
-  {
-    id: 2,
-    name: 'React.js',
-    progress: 40,
-    description: 'Build modern user interfaces'
-  },
-  {
-    id: 3,
-    name: 'Data Structures',
-    progress: 80,
-    description: 'Core computer science concepts'
-  }
-];
+    {
+      id: 1,
+      name: "Python",
+      progress: 65,
+      description: "AI-Generated Learning Path",
+    },
+    {
+      id: 2,
+      name: "React.js",
+      progress: 40,
+      description: "Build modern user interfaces",
+    },
+    {
+      id: 3,
+      name: "Data Structures",
+      progress: 80,
+      description: "Core computer science concepts",
+    },
+  ];
 
+  const handleViewCourse = (skillName) => {
+    setSelectedSkill(skillName);
+    setIsModalOpen(true);
+  };
 
-  const handleViewCourse = () => {
-    console.log(`Viewing course for ${userSkill.name}`);
-    // This is where you'll later open the roadmap modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedSkill(null);
   };
 
   return (
-    // Set a consistent background color
-    <div className="min-h-screen bg-gray-900 text-white">
+    // Set a consistent background color with initial animation
+    <div
+      className="min-h-screen bg-gray-900 text-white animate-fadeInUp"
+      style={{ animationDuration: "0.6s" }}
+    >
       {/* Responsive container padding: smaller on mobile, larger on desktops */}
       <div className="container mx-auto px-4 sm:px-6 py-8">
-        {/* Responsive margin-bottom */}
-        <div className="mb-10 md:mb-12">
+        {/* Header Section with animation */}
+        <div
+          className="mb-10 md:mb-12 opacity-0 translate-y-6 animate-fadeInUp"
+          style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
+        >
           {/* Responsive heading font size */}
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2 drop-shadow-lg">
             Good Evening Abrar
           </h1>
           {/* Responsive paragraph font size */}
-          <p className="text-gray-400 text-base sm:text-lg">
+          <p className="text-gray-400 text-base sm:text-lg drop-shadow-sm">
             Continue your learning journey
           </p>
         </div>
 
-        {/* Skills Grid with responsive gaps-using map function over here  */}
+        {/* Skills Grid with staggered animations */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {userSkill.map((skill) => (
-            <SkillCard
-            key={skill.id} // React needs a unique key for list items
-            skillName={skill.name}
-            progress={skill.progress}
-            description={skill.description} // Pass the new description prop
-            onViewCourse={() => handleViewCourse(skill.name)}
-            />
+          {userSkill.map((skill, index) => (
+            <div
+              key={skill.id}
+              className="opacity-0 translate-y-8 animate-fadeInUp"
+              style={{
+                animationDelay: `${0.3 + index * 0.2}s`,
+                animationFillMode: "forwards",
+              }}
+            >
+              <SkillCard
+                skillName={skill.name}
+                progress={skill.progress}
+                description={skill.description}
+                onViewCourse={() => handleViewCourse(skill.name)}
+              />
+            </div>
           ))}
-          {/* Placeholder for future skills - no changes needed here, it adapts with the grid */}
-          <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 shadow-2xl border border-gray-700 border-dashed min-h-[300px] w-full max-w-sm flex items-center justify-center opacity-50 mx-auto">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-2xl text-gray-400">+</span>
+          {/* Placeholder for future skills with animation */}
+          <div
+            className="opacity-0 translate-y-8 animate-fadeInUp"
+            style={{
+              animationDelay: `${0.3 + userSkill.length * 0.2}s`,
+              animationFillMode: "forwards",
+            }}
+          >
+            <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 shadow-2xl border border-gray-700 border-dashed min-h-[300px] w-full max-w-sm flex items-center justify-center opacity-50 mx-auto hover:shadow-3xl transition-shadow duration-300">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-2xl text-gray-400">+</span>
+                </div>
+                <p className="text-gray-400">Add New Skill</p>
               </div>
-              <p className="text-gray-400">Add New Skill</p>
             </div>
           </div>
         </div>
 
-        {/* Bottom Section with responsive margin-top */}
-        <div className="mt-12 md:mt-16 p-6 bg-gray-800 rounded-xl border border-gray-700">
-          <h3 className="text-xl font-semibold mb-4">Don't See Your Courses?</h3>
+        {/* Bottom Section with animation */}
+        <div
+          className="mt-12 md:mt-16 p-6 bg-gray-800 rounded-xl border border-gray-700 opacity-0 translate-y-6 animate-fadeInUp shadow-xl hover:shadow-2xl transition-shadow duration-300"
+          style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}
+        >
+          <h3 className="text-xl font-semibold mb-4">
+            Don't See Your Courses?
+          </h3>
           <p className="text-gray-400 mb-4">
-            Try refreshing the database. If you are still facing issues?{' '}
+            Try refreshing the database. If you are still facing issues?{" "}
             <span className="text-blue-400 cursor-pointer hover:underline">
               Contact us
             </span>
@@ -82,6 +117,13 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
+
+      {/* Roadmap Modal */}
+      <RoadmapModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        skillName={selectedSkill}
+      />
     </div>
   );
 };

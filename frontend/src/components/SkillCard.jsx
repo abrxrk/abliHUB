@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import React, { useState } from "react";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
-const SkillCard = ({ skillName = "Skill", progress = 0, description= "No description available", onViewCourse }) => {
+const SkillCard = ({
+  skillName = "Skill",
+  progress = 0,
+  description = "No description available",
+  onViewCourse,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div 
+    <div
       className={`
         relative bg-gradient-to-br from-gray-800 to-gray-900 
         rounded-2xl p-6 shadow-2xl border border-gray-700
-        transform transition-all duration-300 ease-in-out
-        ${isHovered ? 'scale-105 shadow-3xl' : ''}
+        transform transition-all duration-500 ease-in-out
+        ${isHovered ? "scale-105 shadow-3xl -translate-y-2" : "shadow-2xl"}
         hover:border-gray-600 cursor-pointer
         min-h-[300px] w-full max-w-sm mx-auto
+        hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.15)]
       `}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -25,23 +31,23 @@ const SkillCard = ({ skillName = "Skill", progress = 0, description= "No descrip
           text={`${progress}%`}
           styles={{
             root: {
-              width: '100%',
-              height: '100%',
+              width: "100%",
+              height: "100%",
             },
             path: {
-              stroke: '#10B981',
+              stroke: "#10B981",
               strokeWidth: 8,
-              transition: 'stroke-dashoffset 0.5s ease 0s',
+              transition: "stroke-dashoffset 0.5s ease 0s",
             },
             trail: {
-              stroke: '#374151',
+              stroke: "#374151",
               strokeWidth: 8,
             },
             // Adjusted text size for better fit on small screens
             text: {
-              fill: '#10B981',
-              fontSize: '22px', // Slightly smaller to fit in the smaller ring
-              fontWeight: 'bold',
+              fill: "#10B981",
+              fontSize: "22px", // Slightly smaller to fit in the smaller ring
+              fontWeight: "bold",
             },
           }}
         />
@@ -54,9 +60,7 @@ const SkillCard = ({ skillName = "Skill", progress = 0, description= "No descrip
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             {skillName}
           </h2>
-          <p className="text-gray-400 text-sm">
-            {description}
-          </p>
+          <p className="text-gray-400 text-sm">{description}</p>
         </div>
 
         {/* Decorative Elements */}
@@ -70,7 +74,7 @@ const SkillCard = ({ skillName = "Skill", progress = 0, description= "No descrip
           className={`
             w-full py-3 px-6 bg-white text-gray-900 font-semibold rounded-lg
             transition-all duration-200 ease-in-out
-            ${isHovered ? 'bg-gray-100 shadow-lg' : 'bg-white'}
+            ${isHovered ? "bg-gray-100 shadow-lg" : "bg-white"}
             hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50
           `}
         >
