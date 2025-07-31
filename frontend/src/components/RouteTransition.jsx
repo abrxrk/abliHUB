@@ -1,9 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 
 const RouteTransition = ({ children, delay = 50 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
+  // Use useLayoutEffect for immediate scroll before paint
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
+    // Also ensure scroll to top after any delay
+    window.scrollTo(0, 0);
+
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, delay);
@@ -13,9 +21,10 @@ const RouteTransition = ({ children, delay = 50 }) => {
 
   return (
     <div
-      className={`transition-all duration-300 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+      className={`transition-opacity duration-300 ease-out overflow-x-hidden w-full ${
+        isVisible ? "opacity-100" : "opacity-0"
       }`}
+      style={{ maxWidth: "100vw", transform: "translateZ(0)" }}
     >
       {children}
     </div>

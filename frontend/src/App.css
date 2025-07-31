@@ -1,12 +1,10 @@
-/* Animation for fade in and slide up effect */
+/* Animation for fade in effect - NO TRANSFORM TO PREVENT OVERFLOW */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 

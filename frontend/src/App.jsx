@@ -10,28 +10,25 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import LoadingSpinner from "./components/LoadingSpinner";
 import RouteTransition from "./components/RouteTransition";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Component to handle route transitions
 const AnimatedRoutes = () => {
   const location = useLocation();
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
-    setIsTransitioning(true);
-    const timer = setTimeout(() => {
-      setIsTransitioning(false);
-    }, 100); // Reduced transition time
-
-    return () => clearTimeout(timer);
+    // Scroll to top immediately when route changes
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   return (
     <div
-      className={`transition-all duration-200 ease-out min-h-screen ${
-        isTransitioning ? "opacity-90" : "opacity-100"
-      }`}
+      className="min-h-screen overflow-x-hidden w-full"
+      style={{ maxWidth: "100vw" }}
     >
       <Routes location={location}>
         <Route
@@ -66,6 +63,8 @@ const AnimatedRoutes = () => {
             </RouteTransition>
           }
         />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </div>
   );
@@ -73,7 +72,6 @@ const AnimatedRoutes = () => {
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     // Only show loading screen on very first visit
@@ -83,7 +81,6 @@ function App() {
       // First time visit - show loading screen
       const timer = setTimeout(() => {
         setIsLoading(false);
-        setHasLoaded(true);
         sessionStorage.setItem("hasVisited", "true");
       }, 1500); // Reduced to 1.5 seconds
 
@@ -91,17 +88,23 @@ function App() {
     } else {
       // Subsequent visits - no loading screen
       setIsLoading(false);
-      setHasLoaded(true);
     }
   }, []);
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-900">
+      <ScrollToTop />
+      <div
+        className="min-h-screen bg-gray-900 overflow-x-hidden w-full"
+        style={{ maxWidth: "100vw" }}
+      >
         <LoadingSpinner isLoading={isLoading} />
 
         {!isLoading && (
-          <div className={`${hasLoaded ? "animate-fadeInUp" : ""}`}>
+          <div
+            className="overflow-x-hidden w-full"
+            style={{ maxWidth: "100vw" }}
+          >
             <AnimatedRoutes />
           </div>
         )}

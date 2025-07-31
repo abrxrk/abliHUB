@@ -48,7 +48,7 @@ const Dashboard = () => {
       <div className="container mx-auto px-4 sm:px-6 py-8">
         {/* Header Section with animation */}
         <div
-          className="mb-10 md:mb-12 opacity-0 translate-y-6 animate-fadeInUp"
+          className="mb-10 md:mb-12 opacity-0 animate-fadeInUp"
           style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
@@ -97,7 +97,7 @@ const Dashboard = () => {
             {userSkill.map((skill, index) => (
               <div
                 key={skill.id}
-                className="opacity-0 translate-y-8 animate-fadeInUp"
+                className="opacity-0 animate-fadeInUp"
                 style={{
                   animationDelay: `${0.3 + index * 0.2}s`,
                   animationFillMode: "forwards",
@@ -114,7 +114,7 @@ const Dashboard = () => {
 
             {/* Placeholder for future skills with animation */}
             <div
-              className="opacity-0 translate-y-8 animate-fadeInUp"
+              className="opacity-0 animate-fadeInUp"
               style={{
                 animationDelay: `${0.3 + userSkill.length * 0.2}s`,
                 animationFillMode: "forwards",

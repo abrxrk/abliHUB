@@ -198,7 +198,24 @@ const LandingPage = () => {
                 <img src="/logo.png" alt="AbliHUB Logo" className="w-8 h-8" />
                 <span className="text-white text-xl font-bold">AbliHUB</span>
               </div>
-              <div className="text-gray-400 text-sm">
+
+              {/* Footer Navigation */}
+              <div className="flex space-x-6 mb-4 md:mb-0">
+                <Link
+                  to="/about"
+                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                >
+                  About
+                </Link>
+                <Link
+                  to="/contact"
+                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                >
+                  Contact Us
+                </Link>
+              </div>
+
+              <div className="text-gray-400 text-sm text-center md:text-right">
                 © {new Date().getFullYear()} AbliHUB. Learn by doing, not
                 watching.
               </div>
