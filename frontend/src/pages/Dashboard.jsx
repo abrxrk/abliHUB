@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SkillCard from "../components/SkillCard";
 import RoadmapModal from "../components/RoadmapModal";
+import BlurFade from "../components/blur-fade";
+import BlurFadeText from "../components/blur-fade-text";
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,87 +41,74 @@ const Dashboard = () => {
   };
 
   return (
-    // Set a consistent background color with initial animation
-    <div
-      className="min-h-screen bg-gray-900 text-white animate-fadeInUp"
-      style={{ animationDuration: "0.6s" }}
-    >
+    // Set a consistent background color
+    <div className="min-h-screen bg-gray-900 text-white">
       {/* Responsive container padding: smaller on mobile, larger on desktops */}
       <div className="container mx-auto px-4 sm:px-6 py-8">
-        {/* Header Section with animation */}
-        <div
-          className="mb-10 md:mb-12 opacity-0 animate-fadeInUp"
-          style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
-        >
+        {/* Header Section with BlurFade animation */}
+        <div className="mb-10 md:mb-12">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
             <div>
               {/* Responsive heading font size */}
-              <h1 className="text-3xl sm:text-4xl font-bold mb-2 drop-shadow-lg">
-                Good Evening{" "}
-                <span className="bg-gradient-to-r from-blue-400 to-slate-400 bg-clip-text text-transparent">
-                  Abrar
-                </span>
-              </h1>
+              <BlurFade delay={0.1} duration={0.6}>
+                <h1 className="text-3xl sm:text-4xl font-bold mb-2 drop-shadow-lg">
+                  Good Evening{" "}
+                  <span className="bg-gradient-to-r from-blue-400 to-slate-400 bg-clip-text text-transparent">
+                    Abrar
+                  </span>
+                </h1>
+              </BlurFade>
               {/* Responsive paragraph font size */}
-              <p className="text-gray-300 text-base sm:text-lg drop-shadow-sm">
-                Continue your learning journey
-              </p>
+              <BlurFade delay={0.3} duration={0.6}>
+                <p className="text-gray-300 text-base sm:text-lg drop-shadow-sm">
+                  Continue your learning journey
+                </p>
+              </BlurFade>
             </div>
 
             {/* Back to Home Button */}
-            <div className="mt-4 sm:mt-0">
-              <Link
-                to="/"
-                className="bg-gradient-to-r from-blue-600 to-slate-700 text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:from-blue-700 hover:to-slate-800 transition-all duration-300 transform hover:scale-105 hover:shadow-blue-500/25 inline-flex items-center space-x-2"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            <BlurFade delay={0.5} duration={0.6}>
+              <div className="mt-4 sm:mt-0">
+                <Link
+                  to="/"
+                  className="bg-gradient-to-r from-blue-600 to-slate-700 text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:from-blue-700 hover:to-slate-800 transition-all duration-300 transform hover:scale-105 hover:shadow-blue-500/25 inline-flex items-center space-x-2"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-                <span>Back to Home</span>
-              </Link>
-            </div>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
+                  </svg>
+                  <span>Back to Home</span>
+                </Link>
+              </div>
+            </BlurFade>
           </div>
         </div>
 
-        {/* Skills Grid with staggered animations */}
+        {/* Skills Grid with staggered BlurFade animations */}
         <section className="py-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {userSkill.map((skill, index) => (
-              <div
-                key={skill.id}
-                className="opacity-0 animate-fadeInUp"
-                style={{
-                  animationDelay: `${0.3 + index * 0.2}s`,
-                  animationFillMode: "forwards",
-                }}
-              >
+              <BlurFade key={skill.id} delay={1.0 + index * 0.2} duration={0.6}>
                 <SkillCard
                   skillName={skill.name}
                   progress={skill.progress}
                   description={skill.description}
                   onViewCourse={() => handleViewCourse(skill.name)}
                 />
-              </div>
+              </BlurFade>
             ))}
 
-            {/* Placeholder for future skills with animation */}
-            <div
-              className="opacity-0 animate-fadeInUp"
-              style={{
-                animationDelay: `${0.3 + userSkill.length * 0.2}s`,
-                animationFillMode: "forwards",
-              }}
-            >
+            {/* Placeholder for future skills with BlurFade animation */}
+            <BlurFade delay={1.0 + userSkill.length * 0.2} duration={0.6}>
               <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 shadow-2xl border border-gray-700 border-dashed min-h-[300px] w-full max-w-sm flex items-center justify-center opacity-50 mx-auto hover:shadow-3xl transition-shadow duration-300">
                 <div className="text-center">
                   <div className="w-12 h-12 bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center">
@@ -128,7 +117,7 @@ const Dashboard = () => {
                   <p className="text-gray-400">Add New Skill</p>
                 </div>
               </div>
-            </div>
+            </BlurFade>
           </div>
         </section>
       </div>
