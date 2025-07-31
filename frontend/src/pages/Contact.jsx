@@ -140,18 +140,20 @@ const Contact = () => {
                 Don't wait - begin building real projects today and transform
                 your coding skills.
               </p>
-              <Link
-                to="/signup"
-                className="bg-gradient-to-r from-blue-600 to-slate-700 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all transform hover:scale-105 shadow-2xl hover:shadow-blue-500/25 inline-block mr-4"
-              >
-                Get Started Free 🚀
-              </Link>
-              <Link
-                to="/"
-                className="border-2 border-gray-600 text-white font-semibold py-4 px-8 rounded-lg hover:border-gray-500 hover:bg-gray-800 transition-all duration-300 inline-block"
-              >
-                Back to Home
-              </Link>
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Link
+                  to="/signup"
+                  className="bg-gradient-to-r from-blue-600 to-slate-700 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all transform hover:scale-105 shadow-2xl hover:shadow-blue-500/25"
+                >
+                  Get Started Free 🚀
+                </Link>
+                <Link
+                  to="/"
+                  className="border-2 border-gray-600 text-white font-semibold py-4 px-8 rounded-lg hover:border-gray-500 hover:bg-gray-800 transition-all duration-300"
+                >
+                  Back to Home
+                </Link>
+              </div>
             </div>
           </div>
         </div>
