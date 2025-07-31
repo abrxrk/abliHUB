@@ -26,17 +26,17 @@ const Login = () => {
     <div className="min-h-screen bg-gray-900 text-white">
       <Navbar />
 
-      <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 sm:px-6 lg:px-8 pt-20">
-        <div className="max-w-md w-full space-y-8">
+      <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 pt-20">
+        <div className="max-w-sm w-full space-y-4">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
+          <div className="text-center mb-4">
+            <h2 className="text-2xl font-bold text-white mb-2">Welcome Back</h2>
             <p className="text-gray-400">Continue your learning journey</p>
           </div>
 
           {/* Form */}
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 border border-gray-700 shadow-2xl">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-gray-700 shadow-2xl">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email */}
               <div>
                 <label

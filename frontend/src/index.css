@@ -22,9 +22,10 @@ body {
   box-sizing: border-box;
 }
 
-*,
-*::before,
-*::after {
+/* Only apply max-width to specific elements that need overflow protection */
+html,
+body,
+#root {
   max-width: 100vw;
 }
 
