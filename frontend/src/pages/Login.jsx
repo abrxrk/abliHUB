@@ -1,25 +1,92 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignIn } from "@clerk/clerk-react";
 import Navbar from "../components/Navbar";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const { isLoaded, signIn, setActive } = useSignIn();
+  const navigate = useNavigate();
+
+  // Initialize state with localStorage values directly
+  const [formData, setFormData] = useState(() => {
+    const rememberedEmail = localStorage.getItem("rememberedEmail");
+    const rememberMe = localStorage.getItem("rememberMe") === "true";
+
+    return {
+      email: rememberedEmail || "",
+      password: "",
+      rememberMe: rememberMe,
+    };
   });
 
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (e) => {
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
+    // Clear error when user starts typing
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: "" });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement actual login logic
-    console.log("Login attempt:", formData);
-    alert("Login functionality coming soon! For now, go to /dashboard");
+
+    if (!isLoaded) return;
+
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      const result = await signIn.create({
+        identifier: formData.email,
+        password: formData.password,
+      });
+
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+
+        // Store remember me preference in localStorage
+        if (formData.rememberMe) {
+          localStorage.setItem("rememberMe", "true");
+          localStorage.setItem("rememberedEmail", formData.email);
+        } else {
+          localStorage.removeItem("rememberMe");
+          localStorage.removeItem("rememberedEmail");
+        }
+
+        navigate("/dashboard");
+      } else {
+        console.log("Sign in not complete:", result);
+      }
+    } catch (err) {
+      console.error("Sign in error:", err);
+
+      // Handle Clerk errors and display them nicely
+      if (err.errors) {
+        const newErrors = {};
+        err.errors.forEach((error) => {
+          if (error.code === "form_identifier_not_found") {
+            newErrors.email = "No account found with this email";
+          } else if (error.code === "form_password_incorrect") {
+            newErrors.password = "Incorrect password";
+          } else {
+            newErrors.general = error.message;
+          }
+        });
+        setErrors(newErrors);
+      } else {
+        setErrors({ general: "Something went wrong. Please try again." });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -37,6 +104,13 @@ const Login = () => {
           {/* Form */}
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-gray-700 shadow-2xl">
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* General Error */}
+              {errors.general && (
+                <div className="bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg text-sm">
+                  {errors.general}
+                </div>
+              )}
+
               {/* Email */}
               <div>
                 <label
@@ -50,11 +124,18 @@ const Login = () => {
                   name="email"
                   type="email"
                   required
-                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className={`w-full px-4 py-3 bg-gray-700 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
+                    errors.email
+                      ? "border-red-500"
+                      : "border-gray-600 focus:border-blue-500"
+                  }`}
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-400">{errors.email}</p>
+                )}
               </div>
 
               {/* Password */}
@@ -70,11 +151,18 @@ const Login = () => {
                   name="password"
                   type="password"
                   required
-                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className={`w-full px-4 py-3 bg-gray-700 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
+                    errors.password
+                      ? "border-red-500"
+                      : "border-gray-600 focus:border-blue-500"
+                  }`}
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
                 />
+                {errors.password && (
+                  <p className="mt-1 text-sm text-red-400">{errors.password}</p>
+                )}
               </div>
 
               {/* Remember me & Forgot password */}
@@ -82,8 +170,10 @@ const Login = () => {
                 <div className="flex items-center">
                   <input
                     id="remember-me"
-                    name="remember-me"
+                    name="rememberMe"
                     type="checkbox"
+                    checked={formData.rememberMe}
+                    onChange={handleChange}
                     className="h-4 w-4 bg-gray-700 border-gray-600 rounded focus:ring-blue-500 focus:ring-2"
                   />
                   <label
@@ -107,20 +197,11 @@ const Login = () => {
               {/* Submit button */}
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-slate-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg hover:shadow-blue-500/25"
+                disabled={!isLoaded || isLoading}
+                className="w-full bg-gradient-to-r from-blue-600 to-slate-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg hover:shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                Sign In
+                {isLoading ? "Signing In..." : "Sign In"}
               </button>
-
-              {/* Demo access */}
-              <div className="text-center">
-                <Link
-                  to="/dashboard"
-                  className="text-sm text-gray-400 hover:text-gray-300 transition-colors border-b border-gray-600 hover:border-gray-500"
-                >
-                  Continue to Dashboard (Demo)
-                </Link>
-              </div>
             </form>
           </div>
 

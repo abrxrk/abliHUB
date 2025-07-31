@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignUp } from "@clerk/clerk-react";
 import Navbar from "../components/Navbar";
 
 const Signup = () => {
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -12,6 +16,7 @@ const Signup = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -42,8 +47,8 @@ const Signup = () => {
 
     if (!formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
     }
 
     if (formData.password !== formData.confirmPassword) {
@@ -53,18 +58,67 @@ const Signup = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = validateForm();
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    if (!isLoaded) return;
+
+    // Run your existing validation first
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
-    // TODO: Implement actual signup logic
-    console.log("Signup attempt:", formData);
-    alert("Signup functionality coming soon! For now, go to /dashboard");
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      // Fix: Use underscore format for Clerk
+      const result = await signUp.create({
+        emailAddress: formData.email,
+        password: formData.password,
+        first_name: formData.firstName, // Changed from firstName
+        last_name: formData.lastName, // Changed from lastName
+      });
+
+      console.log("Signup result:", result); // Debug log
+
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        navigate("/dashboard");
+      } else {
+        console.log("Signup not complete:", result);
+        // Handle email verification if required
+        setErrors({ general: "Please check your email to verify your account" });
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+
+      // Handle Clerk errors and display them nicely
+      if (err.errors) {
+        const newErrors = {};
+        err.errors.forEach((error) => {
+          console.log("Error details:", error); // Debug log
+
+          if (error.code === "form_identifier_exists") {
+            newErrors.email = "An account with this email already exists";
+          } else if (error.code === "form_password_pwned") {
+            newErrors.password =
+              "This password has been compromised. Please choose a different one";
+          } else if (error.code === "form_password_length_too_short") {
+            newErrors.password = "Password must be at least 8 characters";
+          } else {
+            newErrors.general = error.message;
+          }
+        });
+        setErrors(newErrors);
+      } else {
+        setErrors({ general: "Something went wrong. Please try again." });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -86,6 +140,13 @@ const Signup = () => {
           {/* Form */}
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-gray-700 shadow-2xl">
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* General Error */}
+              {errors.general && (
+                <div className="bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg text-sm">
+                  {errors.general}
+                </div>
+              )}
+
               {/* Name fields */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -247,20 +308,11 @@ const Signup = () => {
               {/* Submit button */}
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-slate-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg hover:shadow-blue-500/25"
+                disabled={!isLoaded || isLoading}
+                className="w-full bg-gradient-to-r from-blue-600 to-slate-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg hover:shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                Create Account
+                {isLoading ? "Creating Account..." : "Create Account"}
               </button>
-
-              {/* Demo access */}
-              <div className="text-center">
-                <Link
-                  to="/dashboard"
-                  className="text-sm text-gray-400 hover:text-gray-300 transition-colors border-b border-gray-600 hover:border-gray-500"
-                >
-                  Continue to Dashboard (Demo)
-                </Link>
-              </div>
             </form>
           </div>
 

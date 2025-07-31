@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.38.1",
     "@tailwindcss/vite": "^4.1.11",
     "framer-motion": "^12.23.12",
     "react": "^19.1.0",
+    "react-app-env": "^1.2.3",
     "react-circular-progressbar": "^2.2.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.1"

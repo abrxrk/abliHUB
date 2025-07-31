@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 import Navbar from "../components/Navbar";
 import BlurFade from "../components/blur-fade";
 import BlurFadeText from "../components/blur-fade-text";
@@ -68,6 +69,8 @@ const Target = (props) => (
 );
 
 const LandingPage = () => {
+  const { isSignedIn } = useUser();
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <Navbar />
@@ -99,17 +102,20 @@ const LandingPage = () => {
           <BlurFade delay={0.7} duration={0.6}>
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
               <Link
-                to="/signup"
+                to={isSignedIn ? "/dashboard" : "/signup"}
                 className="bg-gradient-to-r from-blue-600 to-slate-700 text-white font-semibold py-4 px-8 rounded-lg shadow-2xl hover:from-blue-700 hover:to-slate-800 transition-all duration-300 transform hover:scale-105 hover:shadow-blue-500/25"
               >
-                Start Your Journey 🚀
+                {isSignedIn ? "Go to Dashboard" : "Start Your Journey"} 🚀
               </Link>
-              <Link
-                to="/dashboard"
-                className="border-2 border-gray-600 text-white font-semibold py-4 px-8 rounded-lg hover:border-gray-500 hover:bg-gray-800 transition-all duration-300"
-              >
-                See Dashboard Demo
-              </Link>
+              {/* Only show "See Dashboard Demo" for non-authenticated users */}
+              {!isSignedIn && (
+                <Link
+                  to="/dashboard"
+                  className="border-2 border-gray-600 text-white font-semibold py-4 px-8 rounded-lg hover:border-gray-500 hover:bg-gray-800 transition-all duration-300"
+                >
+                  See Dashboard Demo
+                </Link>
+              )}
             </div>
           </BlurFade>
         </header>
@@ -192,10 +198,13 @@ const LandingPage = () => {
             </BlurFade>
             <BlurFade delay={0.5} duration={0.6}>
               <Link
-                to="/signup"
+                to={isSignedIn ? "/dashboard" : "/signup"}
                 className="bg-gradient-to-r from-blue-600 to-slate-700 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all transform hover:scale-105 shadow-2xl hover:shadow-blue-500/25 inline-block"
               >
-                Start Your Journey — It's Free 🚀
+                {isSignedIn
+                  ? "Go to Dashboard"
+                  : "Start Your Journey — It's Free"}{" "}
+                🚀
               </Link>
             </BlurFade>
           </div>

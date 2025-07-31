@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 // BrainCircuit icon component
 const BrainCircuit = (props) => (
@@ -31,6 +32,7 @@ const BrainCircuit = (props) => (
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { isSignedIn, isLoaded } = useUser();
 
   const isActive = (path) => location.pathname === path;
 
@@ -66,18 +68,37 @@ const Navbar = () => {
               >
                 Home
               </Link>
-              <Link
-                to="/login"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="bg-gradient-to-r from-blue-600 to-slate-700 text-white hover:from-blue-700 hover:to-slate-800 px-4 py-2 rounded-lg text-sm font-medium transition-all transform hover:scale-105"
-              >
-                Sign Up
-              </Link>
+
+              {/* Show different buttons based on authentication status */}
+              {isLoaded && isSignedIn ? (
+                // Authenticated user - show Dashboard button
+                <Link
+                  to="/dashboard"
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive("/dashboard")
+                      ? "bg-blue-700 text-white"
+                      : "bg-gradient-to-r from-blue-600 to-slate-700 text-white hover:from-blue-700 hover:to-slate-800"
+                  } transition-all transform hover:scale-105`}
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                // Unauthenticated user - show Login and Sign Up buttons
+                <>
+                  <Link
+                    to="/login"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="bg-gradient-to-r from-blue-600 to-slate-700 text-white hover:from-blue-700 hover:to-slate-800 px-4 py-2 rounded-lg text-sm font-medium transition-all transform hover:scale-105"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -123,20 +144,40 @@ const Navbar = () => {
           >
             Home
           </Link>
-          <Link
-            to="/login"
-            className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            className="block px-3 py-2 rounded-md text-base font-medium bg-gradient-to-r from-blue-600 to-slate-700 text-white hover:from-blue-700 hover:to-slate-800 transition-all"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Sign Up
-          </Link>
+
+          {/* Show different buttons based on authentication status */}
+          {isLoaded && isSignedIn ? (
+            // Authenticated user - show Dashboard button
+            <Link
+              to="/dashboard"
+              className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                isActive("/dashboard")
+                  ? "bg-blue-700 text-white"
+                  : "bg-gradient-to-r from-blue-600 to-slate-700 text-white hover:from-blue-700 hover:to-slate-800"
+              } transition-all`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Dashboard
+            </Link>
+          ) : (
+            // Unauthenticated user - show Login and Sign Up buttons
+            <>
+              <Link
+                to="/login"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="block px-3 py-2 rounded-md text-base font-medium bg-gradient-to-r from-blue-600 to-slate-700 text-white hover:from-blue-700 hover:to-slate-800 transition-all"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

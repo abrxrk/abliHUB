@@ -15,6 +15,7 @@ import Contact from "./pages/Contact";
 import LoadingSpinner from "./components/LoadingSpinner";
 import RouteTransition from "./components/RouteTransition";
 import ScrollToTop from "./components/ScrollToTop";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Component to handle route transitions
 const AnimatedRoutes = () => {
@@ -59,7 +60,9 @@ const AnimatedRoutes = () => {
           path="/dashboard"
           element={
             <RouteTransition delay={50}>
-              <Dashboard />
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
             </RouteTransition>
           }
         />
