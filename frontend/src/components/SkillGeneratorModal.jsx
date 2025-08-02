@@ -6,6 +6,7 @@ const SkillGeneratorModal = ({ isOpen, onClose, onSkillSelect }) => {
   const [suggestedSkills, setSuggestedSkills] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasGenerated, setHasGenerated] = useState(false);
+  const [error, setError] = useState(null);
 
   // Close modal on escape key
   useEffect(() => {
@@ -33,6 +34,7 @@ const SkillGeneratorModal = ({ isOpen, onClose, onSkillSelect }) => {
       setSuggestedSkills([]);
       setIsLoading(false);
       setHasGenerated(false);
+      setError(null);
     }
   }, [isOpen]);
 
@@ -40,24 +42,39 @@ const SkillGeneratorModal = ({ isOpen, onClose, onSkillSelect }) => {
     if (!careerGoal.trim()) return;
 
     setIsLoading(true);
+    setError(null);
 
     try {
-      // TODO: Replace with actual API call to your FastAPI backend
-      // For now, we'll simulate with dummy data
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API delay
+      // Make API call to FastAPI backend
+      const response = await fetch("http://127.0.0.1:8000/generate-skills", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ goal: careerGoal }),
+      });
 
-      // Mock skill suggestions based on career goal
-      const mockSkills = generateMockSkills(careerGoal);
-      setSuggestedSkills(mockSkills);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setSuggestedSkills(data.skills);
       setHasGenerated(true);
     } catch (error) {
       console.error("Error generating skills:", error);
-      // Handle error - you could show a toast notification here
+      setError(
+        "Unable to connect to the skill generation service. Using fallback suggestions."
+      );
+
+      // Handle error gracefully - fallback to mock data to keep UX smooth
+      const fallbackSkills = generateMockSkills(careerGoal);
+      setSuggestedSkills(fallbackSkills);
+      setHasGenerated(true);
     } finally {
       setIsLoading(false);
     }
   };
-
   const generateMockSkills = (goal) => {
     const goalLower = goal.toLowerCase();
 
@@ -241,6 +258,13 @@ const SkillGeneratorModal = ({ isOpen, onClose, onSkillSelect }) => {
                 <span className="text-blue-400 font-medium">{careerGoal}</span>
                 ", here are some skills to get you started:
               </p>
+
+              {/* Error Message */}
+              {error && (
+                <div className="mb-4 p-3 bg-yellow-900/30 border border-yellow-600/50 rounded-lg">
+                  <p className="text-yellow-400 text-sm">⚠️ {error}</p>
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -263,7 +287,10 @@ const SkillGeneratorModal = ({ isOpen, onClose, onSkillSelect }) => {
 
             <div className="flex space-x-3">
               <button
-                onClick={() => setHasGenerated(false)}
+                onClick={() => {
+                  setHasGenerated(false);
+                  setError(null);
+                }}
                 className="flex-1 py-3 px-4 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors"
               >
                 ← Try Different Goal
