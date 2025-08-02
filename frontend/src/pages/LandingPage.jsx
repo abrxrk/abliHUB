@@ -88,7 +88,7 @@ const LandingPage = () => {
           />
           <BlurFadeText
             text="by Doing, Not Watching."
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-400 to-slate-400 bg-clip-text text-transparent tracking-tight mb-6"
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-400 tracking-tight mb-6"
             delay={0.3}
             duration={0.6}
           />
