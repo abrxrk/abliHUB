@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useUser, useClerk } from "@clerk/clerk-react";
 import SkillCard from "../components/SkillCard";
 import RoadmapModal from "../components/RoadmapModal";
+import SkillGeneratorModal from "../components/SkillGeneratorModal";
 import BlurFade from "../components/blur-fade";
 import BlurFadeText from "../components/blur-fade-text";
 
@@ -11,8 +12,8 @@ const Dashboard = () => {
   const { signOut } = useClerk();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
-
-  const userSkill = [
+  const [isSkillGeneratorOpen, setIsSkillGeneratorOpen] = useState(false);
+  const [userSkills, setUserSkills] = useState([
     {
       id: 1,
       name: "Python",
@@ -31,7 +32,7 @@ const Dashboard = () => {
       progress: 80,
       description: "Core computer science concepts",
     },
-  ];
+  ]);
 
   const handleViewCourse = (skillName) => {
     setSelectedSkill(skillName);
@@ -43,11 +44,45 @@ const Dashboard = () => {
     setSelectedSkill(null);
   };
 
+  const handleOpenSkillGenerator = () => {
+    setIsSkillGeneratorOpen(true);
+  };
+
+  const handleCloseSkillGenerator = () => {
+    setIsSkillGeneratorOpen(false);
+  };
+
+  const handleSkillSelect = (selectedSkill) => {
+    // Create new skill with default progress
+    const newSkill = {
+      id: Date.now(), // Simple ID generation - you might want to use a proper ID generator
+      name: selectedSkill.name,
+      progress: 0, // New skills start with 0% progress
+      description: selectedSkill.description,
+    };
+
+    // Add the new skill to the user's skills
+    setUserSkills((prevSkills) => [...prevSkills, newSkill]);
+  };
+
+  const handleDeleteSkill = (skillToDelete) => {
+    // Add a confirmation dialog for better UX
+    if (
+      window.confirm(
+        `Are you sure you want to remove "${skillToDelete.name}" from your learning path?`
+      )
+    ) {
+      setUserSkills((prevSkills) =>
+        prevSkills.filter((skill) => skill.id !== skillToDelete.id)
+      );
+    }
+  };
+
   const handleLogout = async () => {
     // Clear remember me data on explicit logout
-    localStorage.removeItem('rememberMe');
-    localStorage.removeItem('rememberedEmail');
-    
+    localStorage.removeItem("rememberMe");
+    localStorage.removeItem("rememberedEmail");
+
     await signOut();
     // User will be automatically redirected to home/login page
   };
@@ -163,25 +198,46 @@ const Dashboard = () => {
         {/* Skills Grid with staggered BlurFade animations */}
         <section className="py-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {userSkill.map((skill, index) => (
+            {userSkills.map((skill, index) => (
               <BlurFade key={skill.id} delay={1.0 + index * 0.2} duration={0.6}>
                 <SkillCard
                   skillName={skill.name}
                   progress={skill.progress}
                   description={skill.description}
                   onViewCourse={() => handleViewCourse(skill.name)}
+                  onDelete={() => handleDeleteSkill(skill)}
                 />
               </BlurFade>
             ))}
 
-            {/* Placeholder for future skills */}
-            <BlurFade delay={1.0 + userSkill.length * 0.2} duration={0.6}>
-              <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 shadow-2xl border border-gray-700 border-dashed min-h-[300px] w-full max-w-sm flex items-center justify-center opacity-50 mx-auto hover:shadow-3xl transition-shadow duration-300">
+            {/* Learn a New Skill Card */}
+            <BlurFade delay={1.0 + userSkills.length * 0.2} duration={0.6}>
+              <div
+                onClick={handleOpenSkillGenerator}
+                className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 shadow-2xl border border-gray-700 border-dashed min-h-[300px] w-full max-w-sm flex items-center justify-center mx-auto hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:border-gray-600 cursor-pointer hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.15)]"
+              >
                 <div className="text-center">
-                  <div className="w-12 h-12 bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-2xl text-gray-400">+</span>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-slate-700 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
+                    <svg
+                      className="w-8 h-8 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
+                    </svg>
                   </div>
-                  <p className="text-gray-400">Add New Skill</p>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Learn a Skill
+                  </h3>
+                  <p className="text-gray-400 text-sm">
+                    AI-powered learning paths
+                  </p>
                 </div>
               </div>
             </BlurFade>
@@ -194,6 +250,13 @@ const Dashboard = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         skillName={selectedSkill}
+      />
+
+      {/* Skill Generator Modal */}
+      <SkillGeneratorModal
+        isOpen={isSkillGeneratorOpen}
+        onClose={handleCloseSkillGenerator}
+        onSkillSelect={handleSkillSelect}
       />
     </div>
   );

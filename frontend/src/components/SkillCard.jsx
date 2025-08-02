@@ -7,13 +7,14 @@ const SkillCard = ({
   progress = 0,
   description = "No description available",
   onViewCourse,
+  onDelete,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
       className={`
-        relative bg-gradient-to-br from-gray-800 to-gray-900 
+        group relative bg-gradient-to-br from-gray-800 to-gray-900 
         rounded-2xl p-6 shadow-2xl border border-gray-700
         transform transition-all duration-500 ease-in-out
         ${isHovered ? "scale-105 shadow-3xl -translate-y-2" : "shadow-2xl"}
@@ -24,6 +25,32 @@ const SkillCard = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Delete Button - Top Left */}
+      {onDelete && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent triggering card hover/click
+            onDelete();
+          }}
+          className="absolute top-4 left-4 w-8 h-8 bg-red-600 hover:bg-red-700 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 z-10 opacity-0 group-hover:opacity-100"
+          title="Delete skill"
+        >
+          <svg
+            className="w-4 h-4 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </button>
+      )}
+
       {/* Progress Ring - Top Right with responsive sizing */}
       <div className="absolute top-4 right-4 w-14 h-14 sm:w-16 sm:h-16">
         <CircularProgressbar
