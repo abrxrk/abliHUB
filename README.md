@@ -13,11 +13,6 @@ AbliHUB is an **AI-powered project-based learning platform** that helps learners
 
 ---
 
-## 📸 Preview
-
-🚧 This is the **Week 2 UI prototype**. Backend and AI features are being actively developed.
-
-![AbliHUB Dashboard Prototype](UI_Prototype.png)
 
 
 ---
