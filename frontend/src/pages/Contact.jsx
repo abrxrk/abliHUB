@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 import Navbar from "../components/Navbar";
 
 const Contact = () => {
+  const { isSignedIn, isLoaded } = useUser();
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <Navbar />
@@ -141,12 +144,23 @@ const Contact = () => {
                 your coding skills.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Link
-                  to="/signup"
-                  className="bg-gradient-to-r from-blue-600 to-slate-700 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all transform hover:scale-105 shadow-2xl hover:shadow-blue-500/25"
-                >
-                  Get Started Free 🚀
-                </Link>
+                {isLoaded && isSignedIn ? (
+                  // Show Dashboard button for authenticated users
+                  <Link
+                    to="/dashboard"
+                    className="bg-gradient-to-r from-blue-600 to-slate-700 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all transform hover:scale-105 shadow-2xl hover:shadow-blue-500/25"
+                  >
+                    Go to Dashboard 🚀
+                  </Link>
+                ) : (
+                  // Show Sign Up button for unauthenticated users
+                  <Link
+                    to="/signup"
+                    className="bg-gradient-to-r from-blue-600 to-slate-700 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-slate-800 transition-all transform hover:scale-105 shadow-2xl hover:shadow-blue-500/25"
+                  >
+                    Get Started Free 🚀
+                  </Link>
+                )}
                 <Link
                   to="/"
                   className="border-2 border-gray-600 text-white font-semibold py-4 px-8 rounded-lg hover:border-gray-500 hover:bg-gray-800 transition-all duration-300"
